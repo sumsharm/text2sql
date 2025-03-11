@@ -1,4 +1,4 @@
-'''Here is the database schema of PostgreSQL server, the SQL query will run on:
+''' Here is the database schema of PostgreSQL server, the SQL query will run on:
 	CREATE TABLE actor
 (
     actor_id integer ,
@@ -152,6 +152,4 @@ CREATE TABLE store
     last_update timestamp  ,
 
 );
-
-
 '''

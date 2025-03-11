@@ -1,8 +1,8 @@
 import ollama
 import streamlit as st
-from PIL import Image
-import psycopg2
 import pandas as pd
+import psycopg2
+
 
 
 class Database:
@@ -13,23 +13,21 @@ class Database:
         conn = None
         cur = None
         try:
-            # 1. Connection Parameters
+
             db_params = {
-                "host": "localhost",  # Or your PostgreSQL server's hostname/IP
-                "port": 5432,  # Default PostgreSQL port
+                "host": "localhost",
+                "port": 5432,
                 "database": "dvdrental",
                 "user": "postgres",
                 "password": "password",
             }
-            # 2. Establish Connection
+
             conn = psycopg2.connect(**db_params)
-            # 3. Create a Cursor
+
             cur = conn.cursor()
-            # 4. Execute a Query (Example: SELECT)
             cur.execute(self.query)
-            # 5. Fetch Results
-            results = cur.fetchall()  # Fetch all rows
-            columns = [desc[0] for desc in cur.description]  # Get column names
+            results = cur.fetchall()
+            columns = [desc[0] for desc in cur.description]
             df = pd.DataFrame(results, columns=columns)
             st.dataframe(df)
 
@@ -44,7 +42,7 @@ class Database:
                 cur.close()
             if conn:
                 conn.close()
-                print("Database connection closed.")
+                print("Database connection is closed.")
 
 class StreamlitApp:
     def __init__(self):
@@ -54,9 +52,6 @@ class StreamlitApp:
         with open("./Data/schema.txt",'r') as file:
             self.db_metadata = file.read()
         # st.title("AI")
-        image = Image.open("./resource/urban-outfitter.png")
-        st.markdown("<div style='text-align: right;'></div>", unsafe_allow_html=True)
-        st.image(image, use_container_width=False, width=200)
         text2sql = st.text_input("How Can I Help?")
         self.query = self.get_query(text2sql)
         if st.button("Execute Query"):
@@ -74,6 +69,3 @@ class StreamlitApp:
         return llm_query
 
 StreamlitApp()
-
-# print(responses["response"])
-# st.stop()
